@@ -2,6 +2,7 @@ from sqlalchemy import Column, String, Integer, Date, Table, ForeignKey
 from sqlalchemy.orm import relationship, backref
 
 from app.domain.repository.database import Base
+from .order_status import  OrderStatus
 
 class Order(Base):
     __tablename__ = 'orders'
@@ -11,8 +12,8 @@ class Order(Base):
 
     statusid = Column(Integer, ForeignKey('order_status.id'))
     customerid = Column(Integer, ForeignKey('customer.id'))
-    customer = relationship('Customer', backref=backref('orders', uselist=False))
-    status = relationship('OrderStatus', backref=backref('orders', uselist=False))
+    customer = relationship('Customer', primaryjoin="and_(Customer.id == Order.customerid)")
+    status = relationship('OrderStatus', primaryjoin="and_(OrderStatus.id == Order.statusid)")
 
     def __init__(self, statusid, orderdate, completeddate, customer_id):
         self.statusid = statusid
