@@ -20,10 +20,8 @@ class Router():
 
     def handle_request(self, event, context):
         path = event['path']
-        print('*** path: {0}'.format(path))
         router_action = self.match_path(path)
 
-        print('*** router_action: ', router_action)
 
         if router_action is not None:
             return self.router_map[router_action](event)
@@ -37,11 +35,9 @@ class Router():
                 return key
 
     def get_customer_by_id(self, event):
-        logger.info('*** Inside get_customer_by_id ***')
         try:
             path_param = event['pathParameters']
             id = path_param['id']
-            logger.info('***  id: {0}'.format(id))
             customer_json = self.customer_service.get_customer_by_id(id)
 
             return self.get_success_response(customer_json)
@@ -49,7 +45,6 @@ class Router():
             raise ex
 
     def get_customer_list(self, event):
-        print('*** Inside get_customer_list ***')
         try:
             try:
                 path_param = event['pathParameters']
