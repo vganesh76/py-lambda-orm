@@ -12,7 +12,6 @@ class CustomerRepository():
         self.db = db
 
     def add(self, _customer):
-        print('*** Inside customer add ***')
         firstName = _customer['firstName']
         lastName = _customer['lastName']
         email = _customer['email']
@@ -23,10 +22,8 @@ class CustomerRepository():
         session.add(customer_obj)
         session.commit()
         session.close()
-        print('*** customer added to DB ***')
 
     def find_all(self, limit, page=1):
-        print('*** Inside CustomerRepository find_all ***')
         session = None
         if limit is None:
             limit = max_rows
@@ -50,16 +47,22 @@ class CustomerRepository():
                 session.close()
 
     def find_by_id(self, id):
-        print('*** Inside find_by_id ***')
         session = self.db.get_session()
         customer = session.query(Customer) \
             .filter(Customer.id == id) \
             .first()
-        customer_dict = self.db.object_as_dict(customer)
-        #print('*** customer orders: ', customer.customer_orders)
+        customer_dict = DBUtils.object_as_dict(customer)
         orders = []
         for o in customer.customer_orders:
-            orders.append(self.db.object_as_dict(o))
+            orders.append(DBUtils.object_as_dict(o))
         customer_dict['customer_order'] = orders
-        print('*** customer: ', customer_dict)
         return customer_dict        
+
+    def get_child_data(self, customer):       
+        customer_orders = customer.customer_orders
+        customer_orders_dict = []
+        for rb in customer_orders:
+            customer_orders_dict.append(DBUtils.object_as_dict(rb))
+        customer_dict = DBUtils.object_as_dict(customer)
+        customer_dict['customer_orders'] = customer_orders_dict
+        return customer_dict     
