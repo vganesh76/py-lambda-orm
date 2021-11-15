@@ -1,6 +1,6 @@
 
 import unittest
-import mock
+from unittest import mock
 from sqlalchemy.orm import Session, Query
 from sqlalchemy_paginator import Paginator
 
@@ -22,11 +22,6 @@ class CustomerRepositoryTest(unittest.TestCase):
     def test_find_by_id_exception(self, find_by_id):
         with self.assertRaises(Exception):
             find_by_id(1234)
-
-    @mock.patch('app.domain.repository.customer_repository.CustomerRepository.find_by_user_id', side_effect=Exception('Error in DB connection'))
-    def test_find_by_user_id_exception(self, find_by_user_id):
-        with self.assertRaises(Exception):
-            find_by_user_id(1234)
 
     def test_find_all_success(self):
         mock_tuple = TestUtils.get_db_mock()

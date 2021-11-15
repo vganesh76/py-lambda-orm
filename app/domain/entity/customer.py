@@ -15,7 +15,8 @@ class Customer(Base):
 
     customer_orders = relationship('Order', primaryjoin="and_(Customer.id == Order.customerid)")    
 
-    def __init__(self, firstName, lastName, email, createdOn):
+    def __init__(self, id, firstName, lastName, email, createdOn):
+        self.id = id
         self.firstname = firstName
         self.lastname = lastName
         self.email = email

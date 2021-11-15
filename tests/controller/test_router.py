@@ -1,5 +1,5 @@
 import unittest
-import mock
+from unittest import mock
 import json
 
 from app.service.customer_service import CustomerService
