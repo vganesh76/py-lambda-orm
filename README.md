@@ -1,2 +1,3 @@
 # py-lambda-orm
-AWS lambda using sqlalchemy ORM
+A demo AWS Lambda service using sqlalchemy to access RDS.
+
